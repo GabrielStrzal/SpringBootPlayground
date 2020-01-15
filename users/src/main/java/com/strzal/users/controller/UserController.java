@@ -1,19 +1,27 @@
 package com.strzal.users.controller;
 
+import com.strzal.users.entity.User;
+import com.strzal.users.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
-@RequestMapping("user")
+@RequestMapping("users")
 public class UserController {
 
+    @Autowired
+    UserRepository userRepository;
+
     @GetMapping("/{id}")
-    String getUser(@PathVariable int id) {
-        return "User id:  " + id;
+    public Optional<User> getUser(@PathVariable int id) {
+        return userRepository.findById(id);
     }
 
     @PostMapping("/")
-    String setUser(){
-        return "User";
+    public User setUser(@RequestBody User user){
+        return userRepository.save(user);
     }
 
 }
